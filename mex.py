@@ -1,20 +1,3 @@
-import math
-
-
-def div(A, n=0, m=-1):
-    if m == -1:
-        m = calcMEX(A, 0, len(A))
-
-    res = 0
-    if is_valid(A, n, len(A), m):
-        res = 1
-
-    for i in range(n + 1, len(A)):
-        if is_valid(A, n, i, m):
-            res += div(A, i, m)
-    return res
-
-
 def calcMEX(A, i=0, j=-1):
     j = len(A) if j == -1 else j
     found = {}
@@ -32,10 +15,6 @@ def calcMEX(A, i=0, j=-1):
             return i
 
     return max + 1
-
-
-def is_valid(A, i, j, m):
-    return calcMEX(A, i, j) == m
 
 
 def divide(A):
@@ -90,24 +69,3 @@ def find_min(B):
             m_i = i
             m = B[i]
     return m, m_i
-
-
-arr1 = [0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3]
-arr2 = [2, 5, 33, 14, 8, 5, 0, 12, 7, 0, 2]
-arr3 = [5, 33, 0, 8, 5, 0, 12, 7, 0]
-arr4 = [1, 0, 2, 5, 2, 6, 2, 0, 8, 5, 1, 8, 2, 7, 1, 2, 0]
-arr5 = [1, 0, 9, 9, 5, 0, 8, 5, 1, 6, 7, 0, 1]
-arr6 = [5, 6, 33, 0, 8, 5, 1, 0, 1, 0, 12, 7, 0, 1]
-arr7 = [1, 34, 123, 0, 425, 31, 12, 45, 1, 0, 34, 34, 1, 0, 54, 22, 17]
-arr8 = [0, 1, 2, 3, 4, 5, 34, 21, 12, 1, 21, 0, 34, 2, 16, 21, 43, 5, 4, 3, 2, 1, 0]
-arr9 = [2, 3, 0, 1, 4, 1, 4, 0, 2, 1, 1, 4, 3, 0, 3, 1, 2, 0, 4, 1, 2, 3]
-arr10 = [0, 0, 0, 0, 0, 0, 0]
-
-super_arr = []
-
-for i in range(1):
-    super_arr += arr8
-
-print(divide(arr9))
-
-print(div(arr9))

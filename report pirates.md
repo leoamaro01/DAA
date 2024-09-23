@@ -6,13 +6,31 @@ Tu misión es ayudar a los piratas a encontrar el conjunto mínimo de intersecci
 
 ## Resumen
 
-Se tiene un grafo G(V,E) no dirigido donde cada vértice tiene un costo de selleccionarlo (la altura de la palmera).
-Se necesita seleccionar un conjunto $V' \subseteq V$ donde se cumple que G'(V',E') donde $E'={<v,e> \in E | v,e \in V'}$ de forma que se cumpla que $V'$ es el menor subconjuno de V tal que $E' = E$ y que el costo de seleccionar $V'$ sea mínimo. Llamaremos a este problema Cobertura Mínima de Aristas con Costo Mínimo (CMACM)
+Se tiene un grafo G(V,E) no dirigido donde cada vértice tiene un costo de seleccionarlo (la altura de la palmera).
+Se necesita seleccionar un conjunto $V' \subseteq V$ donde se cumple que G'(V',E') donde $E'={<v,e> \in E | v,e \in V'}$ de forma que se cumpla que G'es el cunbimiento menor tal que $E' = E$ y que el costo de seleccionar $V'$ sea mínimo. Llamaremos a este problema Cobertura Mínima de Aristas con Costo Mínimo (CMACM)
 
 
 ## Solución fuerza bruta
+El algoritmo usa un acercamiento recursivo para explorar todos los cubrimientos de vértices posibles, apuntando a encontrar el que tiene el menor costo. Mantiene la mejor cobertura encontrada hasta el momento comparando la cantidad de nodos y el costo de cada cubrimiento potencial. Este es un método de fuerza bruta y puede que no sea eficiente con grafos grandes, pero garantiza que encuentra la solución óptima.
+
 ### Correctitud
+
+Probar la correctitud de este algoritmo es bastante sencillo, ya que genera todas las combinaciones posibles y devuelve la mejor.
+
 ### Complejidad temporal
+
+La complejidad temporal del código dado se puede analizar examinando la función recursiva find_min_cover_aux:
+
+- **Llamadas Recursivas:** La función realiza una llamada recursiva para cada vértice que no está en la cobertura actual. En el peor de los casos, esto significa explorar todos los subconjuntos de vértices.
+
+- **Exploración de Subconjuntos:** Para un grafo con $n$ vértices, hay $2^n$ subconjuntos posibles. La función explora cada subconjunto para encontrar la cobertura mínima.
+
+- **Cálculo de Costos:** Para cada subconjunto, la función calcula el costo y verifica si el subconjunto cubre el grafo. Esto implica verificar la cobertura y actualizar la mejor cobertura y el costo.
+
+- **Caso Base:** El caso base verifica si la cobertura actual cubre el grafo, lo cual toma $O(n)$ tiempo en el peor de los casos (asumiendo que el método is_covered verifica todos los vértices).
+
+Combinando estos factores, la complejidad temporal está dominada por el número de subconjuntos explorados, que es $O(2^n)$. Por lo tanto, la complejidad temporal general del código es:
+$O(2^n * n)$
 
 ## NP-Completitud
 
@@ -28,7 +46,9 @@ Dada la misma entrada del problema original, junto a 2 valores enteros $k$ y $n$
     Para esto vamos a partir del concepto de cuando un problema es NP. Un problema P es NP si para cada instancia x del problema que devuelve true, existe un certificado $y$ con $|y|=O(|x|^c)$ para alguna $c$ constante y existe un algoritmo A que toma a $x$ y $y$ como entrada y cumple que $A(x,y) = 1$
 
 
-    El certificado que vamos a utilizar es un conjunto de vértices, que al ser verificados, cumplen con las condiciones. $|y|=k$, es el máximo tamaño que puede tener un conjunto de vértices pertenecientes a un grafo G, con $V \in G$. La entrada del problema es G(V,E) con un coste en cada vértice, con lo cual $|x| = O(|V|+|E|)$
+    El certificado que vamos a utilizar es un conjunto de vértices, que al ser verificados, cumplen con las condiciones.
+    
+    $|y|=k$, es el máximo tamaño que puede tener un conjunto de vértices pertenecientes a un grafo G, con $V \in G$. La entrada del problema es $(G(V,E),n,k)$ con un coste en cada vértice, con lo cual $|x| = O(|V|+|E|)$
 
     $|y|=O(|x|^c) \rightarrow k = O((|V|+|E|)^c)$ para $c=1$ se cumple que $k=O(|V|+|E|)$
 
@@ -67,3 +87,11 @@ Convertir las entradas de los algoritmos es $O(1)$ pues estos algoritmos utiliza
 Hemos demostrado que nuestro problema es **NP-hard**, por tanto es tan difícil como cualquier problema **NP-completo**, para los cuales hasta la fecha no existe solución en tiempo polinomial, por eso brindamos ahora nuestra solución para resolverlo de forma aproximada.
 
 ## Solución:
+
+La función `find_min_cover_approx` es un algoritmo greedy de aproximación para encontrar el menor cubrimiento de vértices en un grafo.
+
+- **Emparejamiento Maximal:** El algoritmo comienza encontrando un emparejamiento maximal en el grafo. Un emparejamiento es un conjunto de aristas tal que no hay dos aristas que compartan un vértice común. Un emparejamiento maximal es un emparejamiento que no puede ser extendido añadiendo otra arista.
+
+- **Cobertura de vértices a partir de un emparejamiento:** Una vez que se encuentra un emparejamiento máximo, el conjunto de todos los extremos de las aristas en este emparejamiento forma una cobertura de vértices. Esto se debe a que cada arista en el emparejamiento está cubierta por sus extremos, y dado que el emparejamiento es máximo, cualquier arista que no esté en el emparejamiento debe compartir un vértice con una arista en el emparejamiento.
+
+- **Ratio de Aproximación:** Este enfoque garantiza una aproximación de 2. Esto significa que el tamaño de la cobertura de vértices encontrada es como máximo el doble del tamaño de la cobertura de vértices mínima. Esto se debe a que el tamaño de la cobertura de vértices mínima es al menos el tamaño del emparejamiento máximo, y la cobertura de vértices encontrada por este método es como máximo el doble del tamaño del emparejamiento máximo.

@@ -382,3 +382,7 @@ En 6 se guarda el resultado de este estado para la memoización. $O(1)$ típicam
 Entonces en general, la ejecución de cada estado del problema es $O(n + n) = O(n)$.
 
 Ahora, determinemos la cantidad máxima de estados que puede tener el problema.
+
+No se 👉👈
+
+Asumamos peor caso $O(n!^2)$ estados (que no es, son muchos menos, pero esta parte de la demostración la dejamos a medias por _skill issue_), la complejidad temporal sería $O(n*n!^2)$

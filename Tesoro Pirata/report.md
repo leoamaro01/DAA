@@ -7,7 +7,7 @@ Tu misión es ayudar a los piratas a encontrar el conjunto mínimo de intersecci
 ## Resumen
 
 Se tiene un grafo G(V,E) no dirigido donde cada vértice tiene un costo de selleccionarlo (la altura de la palmera).
-Se necesita seleccionar un conjunto $V' \subseteq V$ donde se cumple que G'(V',E') donde $E'={<v,e> \in E | v,e \in V'}$ de forma que se cumpla que $V'$ es el menor subconjuno de V tal que $E' = E$ y que el costo de seleccionar $V'$ sea mínimo.
+Se necesita seleccionar un conjunto $V' \subseteq V$ donde se cumple que G'(V',E') donde $E'={<v,e> \in E | v,e \in V'}$ de forma que se cumpla que $V'$ es el menor subconjuno de V tal que $E' = E$ y que el costo de seleccionar $V'$ sea mínimo. Llamaremos a este problema Cobertura Mínima de Aristas con Costo Mínimo (CMACM)
 
 
 ## Solución fuerza bruta
@@ -31,9 +31,7 @@ Dada la misma entrada del problema original, junto a 2 valores enteros $k$ y $n$
     El certificado que vamos a utilizar es un conjunto de vértices, que al ser verificados, cumplen con las condiciones. $|y|=k$, es el máximo tamaño que puede tener un conjunto de vértices pertenecientes a un grafo G, con $V \in G$. La entrada del problema es G(V,E) con un coste en cada vértice, con lo cual $|x| = O(|V|+|E|)$
 
     $|y|=O(|x|^c) \rightarrow k = O((|V|+|E|)^c)$ para $c=1$ se cumple que $k=O(|V|+|E|)$
-    
-    `Correctitud:`
-    `Complejidad Temporal:`
+
 
 2. Seleccionar un porblema de $NPC$ conocido:
     El problema que vamos a utilizar es el problema **Vertex Cover**.
@@ -45,9 +43,7 @@ Dada la misma entrada del problema original, junto a 2 valores enteros $k$ y $n$
 
     Donde S es un algoritmo que resuelve CLACD. La entrada del algoritmo **Vertex Cover** es un grafo G(V,E) y un entero positivo $k$ que representa el tamaño máximo del conjunto de cobertura de vértices que se busca. Un algoritmo que mapee el grafo G en otro G'(V',E) donde &V'={v \in V}& y a cada nodo se le adiciona un costo, el cual es 0; además el número de costo $k$ es 0. Resta entonces convertir la salida de nuestro algoritmo a la salida del **Vertex Cover**. En caso que CLACD de verdadero la salida del **Vertex Cover** es verdadera, de igual forma si da falso.
 
-4. Probar la correctitud de dicha función.
-
-5. Probar que este algoritmo que computa $f$ se resuelve en tiempo polinomial.
+4. Probar que este algoritmo que computa $f$ se resuelve en tiempo polinomial.
 
     `Complejidad temporal:`
     *$Input(Vertex Cover) \rightarrow Input(CLACD)$*
@@ -61,3 +57,13 @@ Dada la misma entrada del problema original, junto a 2 valores enteros $k$ y $n$
 
 
 ## NP-hard
+
+Vamos a demostrar ahora que el problema $CMACM \in$ **NP-hard**. Para esto nos basaremos en que $CLACD \in NPC$, se puede reducir en $CMACM$. Para esto, al igual que en el caso anterior, vamos a hacer una reducción. Ya seleccionamos un problema que pertenece a $NPC$. Debemos describir un algoritmo que compute $f$, convertir las entradas de $CLACD$ a $CMACM$, es muy sencillo pues ambos algoritmos reciven un grafo, la diferencia es que $CMACM$ irá probando diferentes valores de $k$ y $n$ hasta encontrar los mínimos de ambos valores mientras que $CLACD$ solo recibirá el grafo. Para el caso de convertir la salida de $CMACM$ en la salida de $CLACD$, si la salida del primero es un conjunto vacío de vértices, entonces la salida es -1; sino es vacío, se verifica si la cardinalidad de la salida es menor o igual a $n$ y que el costo es menor o igual a $k$
+
+`Complejidad temporal:`
+
+Convertir las entradas de los algoritmos es $O(1)$ pues estos algoritmos utilizan el mismo grafo de entrada pero con enteros de parámetros que son desechados. Para el caso de las salidas se computa en $O(|V|)$ ya que revisa cada vértice devuelto, siendo la cantidad máxima posible $|V|$, y a la misma vez que se cuenta la cantidad de vértices, se suma el costo total, siendo $O(1)$ para cada vértice.
+
+Hemos demostrado que nuestro problema es **NP-hard**, por tanto es tan difícil como cualquier problema **NP-completo**, para los cuales hasta la fecha no existe solución en tiempo polinomial, por eso brindamos ahora nuestra solución para resolverlo de forma aproximada.
+
+## Solución:

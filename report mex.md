@@ -65,7 +65,7 @@ Sea A un array y Ak un subarray de una división válida de A, se le llama $ Blo
 
 Conociendo este podemos concretar acerca del funcionamiento de nuestro algoritmo el cual primeramente calcula el MEX del array de entrada. Con este valor calculado el algoritmo busca todos los bloques MEX del array basandose en el Teorema 1.3. Cada vez que encontramos un nuevo bloque MEX añadimos los casos resultantes de las divisiones donde solo él y los bloques previamente descubiertos son bloques característicos. De esta forma al encontrar el último bloque tenemos previamente todos los casos donde él no es bloque característico y añadimos todos donde el si lo es, teniendo para ese momento el total de divisiones válidas del array.
 
-### Complejitad Temporal:
+### Complejidad Temporal:
 
 Primeramente tenemos el calcualo del MEX, este se realiza una sola vez por ejecución, al inicio del algoritmo. Aquí tenemos un primer ciclo que intera por el grafo rellenando un diccionario de hallazgos; este primer ciclo realiza n iteraciones y en cada una sus acciones tienen tiempo constante, por lo que su comprejidad es $O(n)$. Luego de este hay un segundo ciclo que itera por todos los números desde 0 hasta el máximo del algoritmo y en cada iteración busca si ese elemento está en el diccionario de hallazgos. Buscar en el diccionario se realiza en tiempo constante y aunque el ciclo se realiza por los números menores al máximo del array este ciclo termina al encontrar el primer valor que no pertenece al array, por lo que no realizará más de n iteraciones, siendo n el tamaño del array; por lo que este ciclo también tiene complejidad de $O(n)$ al igual que el método entero.
 
